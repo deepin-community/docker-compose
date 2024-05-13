@@ -1,4 +1,16 @@
 #!/usr/bin/make -f
 
+export PYBUILD_NAME=compose
 %:
-	dh $@
+	dh $@ --buildsystem=pybuild
+
+execute_after_dh_auto_install:
+	mkdir -p debian/docker-compose/usr/bin
+	mv debian/python3-$(PYBUILD_NAME)/usr/bin/* debian/docker-compose/usr/bin
+
+override_dh_auto_test:
+	# tests disabled because they require networking
+
+test:
+	which pytest || (echo "pytest not found. install python-pytest" ; exit 1)
+	pytest tests
