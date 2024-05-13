@@ -1,0 +1,3 @@
+contrib/completion/zsh/*  /usr/share/zsh/vendor-completions
+contrib/completion/bash/* /usr/share/bash-completion/completions
+contrib/completion/fish/* /usr/share/fish/completions
