@@ -1,16 +1,21 @@
 #!/usr/bin/make -f
 
-export PYBUILD_NAME=compose
+include /usr/share/dpkg/pkg-info.mk
+
+export DH_GOPKG := github.com/docker/compose
+LDFLAGS := -X $(DH_GOPKG)/internal.Version=$(DEB_VERSION)
+
+# Exclude this packages from tests, because they are not compatible with
+# docker/cli > v26.0
+export DH_GOLANG_EXCLUDES := cmd/compose pkg/compose pkg/e2e
+
 %:
-	dh $@ --buildsystem=pybuild
+	dh $@ --builddirectory=_build --buildsystem=golang
 
-execute_after_dh_auto_install:
-	mkdir -p debian/docker-compose/usr/bin
-	mv debian/python3-$(PYBUILD_NAME)/usr/bin/* debian/docker-compose/usr/bin
+override_dh_auto_build:
+	dh_auto_build --builddirectory=_build --buildsystem=golang -- -ldflags '$(LDFLAGS)'
+	# Call the docs generator (it is called main because of the package'snnmae)
+	_build/bin/main
 
-override_dh_auto_test:
-	# tests disabled because they require networking
-
-test:
-	which pytest || (echo "pytest not found. install python-pytest" ; exit 1)
-	pytest tests
+# Skip auto install, use dh-exec to install the binary in a specific location
+override_dh_auto_install:

@@ -1,0 +1,5 @@
+# This field is automatically generated and cannot be made shorter
+docker-compose: field-too-long Static-Built-Using (* chars > 5000)
+
+# These manual pages are for the docker compose subcommand
+docker-compose: spare-manual-page [usr/share/man/man1/docker-compose*]

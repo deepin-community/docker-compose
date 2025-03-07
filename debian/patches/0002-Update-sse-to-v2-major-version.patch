@@ -1,0 +1,60 @@
+From: Nicolas Peugnet <nicolas@club1.fr>
+Date: Sun, 16 Feb 2025 10:53:43 +0100
+Subject: Update sse to v2 major version
+
+This is the latest major version released, the previous one has not been
+updated in 4 years. the v2 is the version currently present in Debian.
+---
+ go.mod                     | 2 +-
+ go.sum                     | 2 ++
+ internal/desktop/client.go | 4 ++--
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/go.mod b/go.mod
+index 3abcfd2..4dbd443 100644
+--- a/go.mod
++++ b/go.mod
+@@ -33,7 +33,7 @@ require (
+ 	github.com/opencontainers/go-digest v1.0.0
+ 	github.com/opencontainers/image-spec v1.1.0
+ 	github.com/otiai10/copy v1.14.0
+-	github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc
++	github.com/r3labs/sse/v2 v2.10.0
+ 	github.com/sirupsen/logrus v1.9.3
+ 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+ 	github.com/spf13/cobra v1.8.0
+diff --git a/go.sum b/go.sum
+index 36720a4..e445419 100644
+--- a/go.sum
++++ b/go.sum
+@@ -426,6 +426,8 @@ github.com/prometheus/procfs v0.12.0 h1:jluTpSng7V9hY0O2R9DzzJHYb2xULk9VTR1V1R/k
+ github.com/prometheus/procfs v0.12.0/go.mod h1:pcuDEFsWDnvcgNzo4EEweacyhjeA9Zk3cnaOZAZEfOo=
+ github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc h1:zAsgcP8MhzAbhMnB1QQ2O7ZhWYVGYSR2iVcjzQuPV+o=
+ github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc/go.mod h1:S8xSOnV3CgpNrWd0GQ/OoQfMtlg2uPRSuTzcSGrzwK8=
++github.com/r3labs/sse/v2 v2.10.0 h1:hFEkLLFY4LDifoHdiCN/LlGBAdVJYsANaLqNYa1l/v0=
++github.com/r3labs/sse/v2 v2.10.0/go.mod h1:Igau6Whc+F17QUgML1fYe1VPZzTV6EMCnYktEmkNJ7I=
+ github.com/rivo/uniseg v0.2.0 h1:S1pD9weZBuJdFmowNwbpi7BJ8TNftyUImj/0WQi72jY=
+ github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
+ github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
+diff --git a/internal/desktop/client.go b/internal/desktop/client.go
+index 77836e2..6b9d156 100644
+--- a/internal/desktop/client.go
++++ b/internal/desktop/client.go
+@@ -28,7 +28,7 @@ import (
+ 	"strings"
+ 
+ 	"github.com/docker/compose/v2/internal/memnet"
+-	"github.com/r3labs/sse"
++	"github.com/r3labs/sse/v2"
+ 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+ )
+ 
+@@ -300,7 +300,7 @@ func (c *Client) StreamFileShares(ctx context.Context) (<-chan EventMessage[[]Fi
+ }
+ 
+ func readEvents[T any](ctx context.Context, r io.Reader, events chan<- EventMessage[T]) error {
+-	eventReader := sse.NewEventStreamReader(r)
++	eventReader := sse.NewEventStreamReader(r, 4096)
+ 	for {
+ 		msg, err := eventReader.ReadEvent()
+ 		if errors.Is(err, io.EOF) {
