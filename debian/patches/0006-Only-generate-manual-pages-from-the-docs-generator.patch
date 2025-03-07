@@ -1,0 +1,26 @@
+From: Nicolas Peugnet <nicolas@club1.fr>
+Date: Tue, 18 Feb 2025 23:12:18 +0100
+Subject: Only generate manual pages from the docs generator
+
+The rest of the files (md and yaml) are already generated, we only need
+to generate the manual pages. This allows not to touch the files of the
+repository, thus making the clean target simpler.
+
+Forwarded: not-needed
+---
+ docs/yaml/main/generate.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/yaml/main/generate.go b/docs/yaml/main/generate.go
+index 90ac25c..06e065e 100644
+--- a/docs/yaml/main/generate.go
++++ b/docs/yaml/main/generate.go
+@@ -48,7 +48,7 @@ func generateDocs(opts *options) error {
+ 	if err != nil {
+ 		return err
+ 	}
+-	return tool.GenAllTree()
++	return tool.GenManTree(cmd)
+ }
+ 
+ func disableFlagsInUseLine(cmd *cobra.Command) {
