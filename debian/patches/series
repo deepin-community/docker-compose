@@ -1,0 +1,6 @@
+0001-Use-upstream-fsnotify-instead-of-a-fork.patch
+0002-Update-sse-to-v2-major-version.patch
+0003-Allow-to-compile-with-compose-go-v2.1.3.patch
+0004-bump-compose-go-to-version-v2.2.0.patch
+0005-Directly-use-time.Ticker-to-be-able-to-use-clockwork-v0.1.x.patch
+0006-Only-generate-manual-pages-from-the-docs-generator.patch

@@ -1,3 +1,22 @@
+docker-compose (2.26.1-1) UNRELEASED; urgency=medium
+
+  Unlike Compose V1, Compose V2 integrates into the Docker CLI platform and
+  the recommended command-line syntax is "docker compose". The previous
+  behaviour can be obtained by adding an alias from "docker-compose" to
+  "docker compose".
+  It is recommended that you adapt to the new preferred way of running
+  Compose V2, which is to use "docker compose" instead of "docker-compose".
+
+  Compose generates container names based on the project name, service name,
+  and scale/replica count.
+  In Compose V1, an underscore (_) was used as the word separator. In Compose
+  V2, a hyphen (-) is used as the word separator.
+  The global "--compatibility" flag or "COMPOSE_COMPATIBILITY" environment
+  variable preserves the Compose V1 behavior to use underscores (_) as the
+  word separator.
+
+ -- Nicolas Peugnet <nicolas@club1.fr>  Sun, 09 Feb 2025 17:35:45 +0100
+
 docker-compose (1.5.1-1) unstable; urgency=medium
 
   With the introduction of variable substitution support in the Compose file,

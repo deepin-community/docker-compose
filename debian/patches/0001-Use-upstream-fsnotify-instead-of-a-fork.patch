@@ -1,0 +1,76 @@
+From: Nicolas Peugnet <nicolas@club1.fr>
+Date: Sun, 9 Feb 2025 18:49:55 +0100
+Subject: Use upstream fsnotify instead of a fork
+
+The fork only adds a few fixes on Windows and macOS, nothing that
+would be of interest for Debian.
+---
+ pkg/watch/notify.go          | 2 +-
+ pkg/watch/watcher_naive.go   | 6 +++---
+ pkg/watch/watcher_nonwin.go  | 2 +-
+ pkg/watch/watcher_windows.go | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/pkg/watch/notify.go b/pkg/watch/notify.go
+index 61b6b16..5f3ddcc 100644
+--- a/pkg/watch/notify.go
++++ b/pkg/watch/notify.go
+@@ -25,7 +25,7 @@ import (
+ 	"runtime"
+ 	"strconv"
+ 
+-	"github.com/tilt-dev/fsnotify"
++	"github.com/fsnotify/fsnotify"
+ )
+ 
+ var (
+diff --git a/pkg/watch/watcher_naive.go b/pkg/watch/watcher_naive.go
+index 5ee0b05..84e912a 100644
+--- a/pkg/watch/watcher_naive.go
++++ b/pkg/watch/watcher_naive.go
+@@ -29,7 +29,7 @@ import (
+ 
+ 	pathutil "github.com/docker/compose/v2/internal/paths"
+ 	"github.com/sirupsen/logrus"
+-	"github.com/tilt-dev/fsnotify"
++	"github.com/fsnotify/fsnotify"
+ )
+ 
+ // A naive file watcher that uses the plain fsnotify API.
+@@ -314,8 +314,8 @@ func newWatcher(paths []string, ignore PathMatcher) (Notify, error) {
+ 	}
+ 	MaybeIncreaseBufferSize(fsw)
+ 
+-	err = fsw.SetRecursive()
+-	isWatcherRecursive := err == nil
++	// On non-windows, the watcher is non-recursive (e.g. inotify for Linux)
++	isWatcherRecursive := false
+ 
+ 	wrappedEvents := make(chan FileEvent)
+ 	notifyList := make(map[string]bool, len(paths))
+diff --git a/pkg/watch/watcher_nonwin.go b/pkg/watch/watcher_nonwin.go
+index 3607133..a912df6 100644
+--- a/pkg/watch/watcher_nonwin.go
++++ b/pkg/watch/watcher_nonwin.go
+@@ -19,7 +19,7 @@
+ 
+ package watch
+ 
+-import "github.com/tilt-dev/fsnotify"
++import "github.com/fsnotify/fsnotify"
+ 
+ func MaybeIncreaseBufferSize(w *fsnotify.Watcher) {
+ 	// Not needed on non-windows
+diff --git a/pkg/watch/watcher_windows.go b/pkg/watch/watcher_windows.go
+index 69af1ea..08f122f 100644
+--- a/pkg/watch/watcher_windows.go
++++ b/pkg/watch/watcher_windows.go
+@@ -20,7 +20,7 @@
+ package watch
+ 
+ import (
+-	"github.com/tilt-dev/fsnotify"
++	"github.com/fsnotify/fsnotify"
+ )
+ 
+ // TODO(nick): I think the ideal API would be to automatically increase the

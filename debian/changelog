@@ -1,3 +1,81 @@
+docker-compose (2.26.1-3) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Reinhard Tartler <siretart@tauware.de>  Wed, 26 Feb 2025 07:21:23 -0500
+
+docker-compose (2.26.1-2) experimental; urgency=medium
+
+  [ Nicolas Peugnet ]
+  * Fix compose-spec v2.1.3 patch to avoid nil pointer dereference
+
+ -- Reinhard Tartler <siretart@tauware.de>  Mon, 24 Feb 2025 15:03:26 -0500
+
+docker-compose (2.26.1-1) experimental; urgency=medium
+
+  [ Nicolas Peugnet ]
+  * Upgrade to docker-compose v2 (Closes: #1040417, #1098732)
+
+  [ Reinhard Tartler ]
+  * Add myself to uploaders
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 23 Feb 2025 09:56:17 -0500
+
+docker-compose (1.29.2-8) experimental; urgency=medium
+
+  * Merge changes from NMUs in unstable
+
+ -- Andrej Shadura <andrewsh@debian.org>  Wed, 19 Feb 2025 16:44:55 +0100
+
+docker-compose (1.29.2-7) experimental; urgency=medium
+
+  * Drop docker-compose package. Since docker-compose will soon be
+    replaced by the Go reimplementation in docker-compose 2.x,
+    this package will only ship the Python library from now on.
+
+ -- Andrej Shadura <andrewsh@debian.org>  Wed, 19 Feb 2025 15:58:16 +0100
+
+docker-compose (1.29.2-6.4) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Alexandre Detiste ]
+  * Replace pipes with shlex for Python 3.13 compatibility (closes:
+    #1084703).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 19 Jan 2025 22:10:18 +0000
+
+docker-compose (1.29.2-6.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * d/patches/dockerpy-v7-compatibility.patch: add patch from originally from
+    Philip Chung, to fix a compatibility issue with python3-docker >= 7.x.
+    (Closes: #1073205).
+  * d/patches/remove_distutils.patch: update patch with changes in test/ to
+    match the changes made in the code.
+  * d/patches/fix-test-failure-py-path.patch: add patch to fix a test failure
+    due to pylib incompatibility.
+
+ -- Faidon Liambotis <paravoid@debian.org>  Fri, 09 Aug 2024 11:28:27 +0300
+
+docker-compose (1.29.2-6.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * d/patches/remove_distutils.patch: Update patch to fix a bug in the
+    use of packaging.version.Version (Closes: #1076201).
+
+ -- Emmanuel Arias <eamanu@debian.org>  Sun, 14 Jul 2024 18:21:36 -0300
+
+docker-compose (1.29.2-6.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * d/patches/remove_distutils.patch: Add patch to remove the use of
+    python3-distutils.
+  * d/control: Remove python3-distutils from binary packages Dependency.
+    Replaced by python3-packaging (Closes: #1065848).
+
+ -- Emmanuel Arias <eamanu@debian.org>  Mon, 08 Jul 2024 12:49:42 -0300
+
 docker-compose (1.29.2-6) unstable; urgency=medium
 
   * Source-only rebuild.

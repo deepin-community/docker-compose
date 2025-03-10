@@ -1,3 +1,2 @@
-contrib/completion/zsh/*  /usr/share/zsh/vendor-completions
-contrib/completion/bash/* /usr/share/bash-completion/completions
-contrib/completion/fish/* /usr/share/fish/completions
+#!/usr/bin/dh-exec
+_build/bin/cmd => usr/libexec/docker/cli-plugins/docker-compose
