@@ -1,59 +1,75 @@
 Source: docker-compose
-Maintainer: Docker Compose Team <team+docker-compose@tracker.debian.org>
-Uploaders:
- Jason Pleau <jason@jpleau.ca>,
- Andrej Shadura <andrewsh@debian.org>
-Section: admin
+Section: golang
 Priority: optional
-Build-Depends:
- debhelper-compat (= 13),
- dh-sequence-python3,
- python3-all,
- python3-cached-property (>= 1.2.0),
- python3-setuptools (>= 0.6b3),
- python3-distro (>= 1.5.0),
- python3-docker (>= 5),
- python3-dockerpty (>= 0.4.1),
- python3-docopt (>= 0.6.1),
- python3-dotenv (>= 0.13.0),
- python3-yaml (>= 3.10),
- python3-requests (>= 2.20.0),
- python3-texttable (>= 0.9.0),
- python3-websocket (>= 0.32.0),
- python3-mock (>= 1.0.1),
- python3-flake8,
-Standards-Version: 4.6.0
+Maintainer: Debian Go Packaging Team <team+pkg-go@tracker.debian.org>
+Uploaders: Nicolas Peugnet <nicolas@club1.fr>, Reinhard Tartler <siretart@tauware.de>
 Rules-Requires-Root: no
-Homepage: https://docs.docker.com/compose/
-Vcs-Git: https://salsa.debian.org/docker-compose-team/docker-compose.git
-Vcs-Browser: https://salsa.debian.org/docker-compose-team/docker-compose
+Build-Depends: debhelper-compat (= 13),
+               dh-exec,
+               dh-sequence-golang,
+               golang-any,
+               golang-github-acarl005-stripansi-dev,
+               golang-github-alecaivazis-survey-dev,
+               golang-github-buger-goterm-dev,
+               golang-github-compose-spec-compose-go-dev,
+               golang-github-containerd-console-dev,
+               golang-github-containerd-containerd-dev,
+               golang-github-davecgh-go-spew-dev,
+               golang-github-distribution-reference-dev,
+               golang-github-docker-buildx-dev,
+               golang-github-docker-cli-docs-tool-dev,
+               golang-github-docker-docker-dev,
+               golang-github-docker-go-connections-dev,
+               golang-github-docker-go-units-dev,
+               golang-github-docker-notary-dev,
+               golang-github-eiannone-keyboard-dev,
+               golang-github-fsnotify-fsnotify-dev,
+               golang-github-google-go-cmp-dev,
+               golang-github-gotestyourself-gotest.tools-dev <!nocheck>,
+               golang-github-hashicorp-go-multierror-dev,
+               golang-github-hashicorp-go-version-dev,
+               golang-github-jonboulle-clockwork-dev,
+               golang-github-mattn-go-shellwords-dev,
+               golang-github-mitchellh-mapstructure-dev,
+               golang-github-moby-patternmatcher-dev,
+               golang-github-moby-term-dev,
+               golang-github-morikuni-aec-dev,
+               golang-github-opencontainers-go-digest-dev,
+               golang-github-opencontainers-image-spec-dev,
+               golang-github-otiai10-copy-dev,
+               golang-github-r3labs-sse-dev,
+               golang-github-skratchdot-open-golang-dev,
+               golang-github-spf13-cobra-dev,
+               golang-github-spf13-pflag-dev,
+               golang-github-stretchr-testify-dev,
+               golang-go.uber-mock-dev,
+               golang-golang-x-exp-dev,
+               golang-golang-x-sync-dev,
+               golang-google-grpc-dev,
+               golang-gopkg-yaml.v3-dev,
+               golang-logrus-dev,
+               golang-opentelemetry-contrib-dev,
+               golang-opentelemetry-otel-dev,
+               golang-uber-goleak-dev,
+Testsuite: autopkgtest-pkg-go
+Standards-Version: 4.7.0
+Vcs-Browser: https://salsa.debian.org/go-team/packages/docker-compose
+Vcs-Git: https://salsa.debian.org/go-team/packages/docker-compose.git
+Homepage: https://github.com/docker/compose
+XS-Go-Import-Path: github.com/docker/compose
 
 Package: docker-compose
-Architecture: all
-Depends:
- ${misc:Depends},
- ${python3:Depends},
- python3-distutils,
- python3-compose (= ${binary:Version}),
-Recommends: docker.io (>= 1.9.0)
-Description: define and run multi-container Docker applications with YAML
- docker-compose is a service management software built on top of docker. Define
- your services and their relationships in a simple YAML file, and let compose
- handle the rest.
+Section: admin
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Recommends: docker-cli,
+Static-Built-Using: ${misc:Static-Built-Using}
+Description: Define and run multi-container applications with Docker (program)
+ Docker Compose is a tool for running multi-container applications on
+ Docker defined using the Compose file format (https://compose-spec.io). A
+ Compose file is used to define how one or more containers that make up
+ your application are configured. Once you have a Compose file, you can
+ create and start your application with a single command:
  .
- This package includes the command-line tool.
-
-Package: python3-compose
-Architecture: all
-Depends:
- ${misc:Depends},
- ${python3:Depends},
- python3-distutils,
-Replaces: docker-compose (<< 1.29.2-4~)
-Breaks: docker-compose (<< 1.29.2-4~)
-Description: Python implementation of docker-compose file specification
- docker-compose is a service management software built on top of docker. Define
- your services and their relationships in a simple YAML file, and let compose
- handle the rest.
- .
- This package includes a Python implementation of docker-compose.
+  docker compose up
